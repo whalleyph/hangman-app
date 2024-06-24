@@ -1,4 +1,5 @@
 import React from "react";
+import { alphabet, hangmanPics } from "./data";
 
 function Game() {
   const [targetWord, setTargetWord] = React.useState("apple");
@@ -22,43 +23,24 @@ function Game() {
     for (let i = 0; i < targetWord.length; i++) {
       if (targetWord[i] === letter) {
         newGuessProgress[i] = letter;
-      } else {
-        setMissCounter((prevNumber) => prevNumber + 1);
       }
+    }
+    if (arraysHaveTheSameContents(newGuessProgress, guessProgress)) {
+        const newMissCounter = missCounter + 1;
+      setMissCounter(newMissCounter);
     }
     setGuessProgress(newGuessProgress);
     setClickedButtons(newClickedButtons);
   }
 
+  function arraysHaveTheSameContents(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
+    return arr1.every((element, index) => element === arr2[index]);
+  }
+
   function createAlphabetButtons() {
-    let alphabet = [
-      "a",
-      "b",
-      "c",
-      "d",
-      "e",
-      "f",
-      "g",
-      "h",
-      "i",
-      "j",
-      "k",
-      "l",
-      "m",
-      "n",
-      "o",
-      "p",
-      "q",
-      "r",
-      "s",
-      "t",
-      "u",
-      "v",
-      "w",
-      "x",
-      "y",
-      "z",
-    ];
     return alphabet.map((letter) => (
       <button
         key={letter}
@@ -75,6 +57,7 @@ function Game() {
 
   return (
     <>
+      <p className="hangman-picture">{hangmanPics[missCounter]}</p>
       <p>{guessProgress.join(" ")}</p>
       <div className="alphabet-buttons">{createAlphabetButtons()}</div>
       <div className="new-game">

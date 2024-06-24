@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.hangman-picture {
+  font-family: monospace;
+  white-space: pre;
+}
