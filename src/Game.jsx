@@ -5,9 +5,26 @@ function Game() {
   const [guessProgress, setGuessProgress] = React.useState(
     generateInitialAnswerDisplay()
   );
+  const [clickedButtons, setClickedButtons] = React.useState({});
 
   function generateInitialAnswerDisplay() {
     return targetWord.split("").map((_ch) => "_");
+  }
+
+  function handleClick(letter) {
+    const newGuessProgress = [...guessProgress];
+    const newClickedButtons = {
+      ...clickedButtons,
+      [letter]: true,
+    };
+
+    for (let i = 0; i < targetWord.length; i++) {
+      if (targetWord[i] === letter) {
+        newGuessProgress[i] = letter;
+      }
+    }
+    setGuessProgress(newGuessProgress);
+    setClickedButtons(newClickedButtons);
   }
 
   function createAlphabetButtons() {
@@ -39,7 +56,18 @@ function Game() {
       "y",
       "z",
     ];
-    return alphabet.map((letter) => <button>{letter}</button>);
+    return alphabet.map((letter) => (
+      <button
+        key={letter}
+        className="button"
+        onClick={() => {
+          handleClick(letter);
+        }}
+        disabled={clickedButtons[letter]}
+      >
+        {letter}
+      </button>
+    ));
   }
 
   return (
