@@ -13,7 +13,7 @@ function Game() {
     return targetWord.split("").map((_ch) => "_");
   }
 
-  function handleClick(guessedLetter) {
+  function handleClickOnLetters(guessedLetter) {
     const newGuessProgress = [...guessProgress];
     const newClickedButtons = {
       ...clickedButtons,
@@ -55,18 +55,24 @@ function Game() {
         key={letter}
         className="button"
         onClick={() => {
-          handleClick(letter);
+          handleClickOnLetters(letter);
         }}
         disabled={
           clickedButtons[letter] ||
           !guessProgress.includes("_") ||
-          missCounter == 6
+          missCounter === 6
         }
       >
         {letter}
       </button>
     ));
   }
+
+    function handleNewGame() {
+        setGuessProgress(generateInitialAnswerDisplay())
+        setClickedButtons({})
+        setMissCounter(0)
+    }
 
   return (
     <>
@@ -77,7 +83,7 @@ function Game() {
         <CreateAlphabetButtons />
       </div>
       <div className="new-game">
-        <button>New Game</button>
+        <button onClick={handleNewGame}>New Game</button>
       </div>
     </>
   );
