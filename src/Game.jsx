@@ -2,18 +2,16 @@ import React from "react";
 import { alphabet, hangmanPics, words } from "./data";
 
 function Game() {
-  const [randomNumber, setRandomNumber] = React.useState(
-    Math.floor(Math.random() * words.length)
-  );
-  const targetWord = words[randomNumber];
+  const randomNumber = Math.floor(Math.random() * words.length);
+  const [targetWord, setTargetWord] = React.useState(words[randomNumber]);
   const [guessProgress, setGuessProgress] = React.useState(
-    generateInitialAnswerDisplay()
+    generateInitialAnswerDisplay(targetWord)
   );
   const [clickedButtons, setClickedButtons] = React.useState({});
   const [missCounter, setMissCounter] = React.useState(0);
 
-  function generateInitialAnswerDisplay() {
-    return targetWord.split("").map((_ch) => "_");
+  function generateInitialAnswerDisplay(word) {
+    return word.split("").map((_ch) => "_");
   }
 
   function handleClickOnLetters(guessedLetter) {
@@ -72,10 +70,12 @@ function Game() {
   }
 
   function handleNewGame() {
-    setGuessProgress(generateInitialAnswerDisplay());
+    const newRandomNumber = Math.floor(Math.random() * words.length);
+    const newTargetWord = words[newRandomNumber];
     setClickedButtons({});
     setMissCounter(0);
-    setRandomNumber(Math.floor(Math.random() * words.length))
+    setTargetWord(newTargetWord);
+    setGuessProgress(generateInitialAnswerDisplay(newTargetWord));
   }
 
   return (
