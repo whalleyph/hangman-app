@@ -6,6 +6,7 @@ function Game() {
     generateInitialAnswerDisplay()
   );
   const [clickedButtons, setClickedButtons] = React.useState({});
+  const [missCounter, setMissCounter] = React.useState(0);
 
   function generateInitialAnswerDisplay() {
     return targetWord.split("").map((_ch) => "_");
@@ -21,6 +22,8 @@ function Game() {
     for (let i = 0; i < targetWord.length; i++) {
       if (targetWord[i] === letter) {
         newGuessProgress[i] = letter;
+      } else {
+        setMissCounter((prevNumber) => prevNumber + 1);
       }
     }
     setGuessProgress(newGuessProgress);
