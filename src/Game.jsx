@@ -1,6 +1,15 @@
 import React from "react";
 
 function Game() {
+  const [targetWord, setTargetWord] = React.useState("apple");
+  const [guessProgress, setGuessProgress] = React.useState(
+    generateInitialAnswerDisplay()
+  );
+
+  function generateInitialAnswerDisplay() {
+    return targetWord.split("").map((_ch) => "_");
+  }
+
   function createAlphabetButtons() {
     let alphabet = [
       "a",
@@ -35,7 +44,7 @@ function Game() {
 
   return (
     <>
-      <p>Game display goes here</p>
+      <p>{guessProgress.join(" ")}</p>
       <div className="alphabet-buttons">{createAlphabetButtons()}</div>
       <div className="new-game">
         <button>New Game</button>
