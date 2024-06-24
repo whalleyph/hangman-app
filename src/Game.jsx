@@ -1,8 +1,11 @@
 import React from "react";
-import { alphabet, hangmanPics } from "./data";
+import { alphabet, hangmanPics, words } from "./data";
 
 function Game() {
-  const [targetWord, setTargetWord] = React.useState("apple");
+  const [randomNumber, setRandomNumber] = React.useState(
+    Math.floor(Math.random() * words.length)
+  );
+  const targetWord = words[randomNumber];
   const [guessProgress, setGuessProgress] = React.useState(
     generateInitialAnswerDisplay()
   );
@@ -68,11 +71,12 @@ function Game() {
     ));
   }
 
-    function handleNewGame() {
-        setGuessProgress(generateInitialAnswerDisplay())
-        setClickedButtons({})
-        setMissCounter(0)
-    }
+  function handleNewGame() {
+    setGuessProgress(generateInitialAnswerDisplay());
+    setClickedButtons({});
+    setMissCounter(0);
+    setRandomNumber(Math.floor(Math.random() * words.length))
+  }
 
   return (
     <>
