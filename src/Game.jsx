@@ -13,24 +13,33 @@ function Game() {
     return targetWord.split("").map((_ch) => "_");
   }
 
-  function handleClick(letter) {
+  function handleClick(guessedLetter) {
     const newGuessProgress = [...guessProgress];
     const newClickedButtons = {
       ...clickedButtons,
-      [letter]: true,
+      [guessedLetter]: true,
     };
 
     for (let i = 0; i < targetWord.length; i++) {
-      if (targetWord[i] === letter) {
-        newGuessProgress[i] = letter;
+      if (targetWord[i] === guessedLetter) {
+        newGuessProgress[i] = guessedLetter;
       }
     }
     if (arraysHaveTheSameContents(newGuessProgress, guessProgress)) {
-        const newMissCounter = missCounter + 1;
+      const newMissCounter = missCounter + 1;
       setMissCounter(newMissCounter);
     }
     setGuessProgress(newGuessProgress);
     setClickedButtons(newClickedButtons);
+  }
+
+  function GameOverMessage() {
+    if (!guessProgress.includes("_")) {
+      return <p>You win!</p>;
+    }
+    if (missCounter === 6) {
+      return <p>You lose, the word was {targetWord}</p>;
+    }
   }
 
   function arraysHaveTheSameContents(arr1, arr2) {
@@ -40,7 +49,7 @@ function Game() {
     return arr1.every((element, index) => element === arr2[index]);
   }
 
-  function createAlphabetButtons() {
+  function CreateAlphabetButtons() {
     return alphabet.map((letter) => (
       <button
         key={letter}
@@ -48,7 +57,11 @@ function Game() {
         onClick={() => {
           handleClick(letter);
         }}
-        disabled={clickedButtons[letter]}
+        disabled={
+          clickedButtons[letter] ||
+          !guessProgress.includes("_") ||
+          missCounter == 6
+        }
       >
         {letter}
       </button>
@@ -59,7 +72,10 @@ function Game() {
     <>
       <p className="hangman-picture">{hangmanPics[missCounter]}</p>
       <p>{guessProgress.join(" ")}</p>
-      <div className="alphabet-buttons">{createAlphabetButtons()}</div>
+      <GameOverMessage />
+      <div className="alphabet-buttons">
+        <CreateAlphabetButtons />
+      </div>
       <div className="new-game">
         <button>New Game</button>
       </div>
