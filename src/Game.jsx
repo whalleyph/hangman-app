@@ -3,6 +3,7 @@ import { words } from "./data";
 import { generateInitialAnswerDisplay } from "./utils";
 import GameProgress from "./GameProgress";
 import AlphabetButtons from "./AlphabetButtons";
+import NewGame from "./NewGame";
 
 function Game() {
   const randomNumber = Math.floor(Math.random() * words.length);
@@ -12,15 +13,6 @@ function Game() {
   );
   const [clickedButtons, setClickedButtons] = React.useState({});
   const [missCounter, setMissCounter] = React.useState(0);
-
-  function handleNewGame() {
-    const newRandomNumber = Math.floor(Math.random() * words.length);
-    const newTargetWord = words[newRandomNumber];
-    setClickedButtons({});
-    setMissCounter(0);
-    setTargetWord(newTargetWord);
-    setGuessProgress(generateInitialAnswerDisplay(newTargetWord));
-  }
 
   return (
     <>
@@ -35,11 +27,17 @@ function Game() {
         targetWord={targetWord}
         missCounter={missCounter}
         setMissCounter={setMissCounter}
+        setGuessProgress={setGuessProgress}
         setClickedButtons={setClickedButtons}
       />
-      <div className="new-game">
-        <button onClick={handleNewGame}>New Game</button>
-      </div>
+      <NewGame 
+      words={words}
+      setClickedButtons={setClickedButtons}
+      setMissCounter={setMissCounter}
+      setTargetWord={setTargetWord}
+      setGuessProgress={setGuessProgress}
+      generateInitialAnswerDisplay={generateInitialAnswerDisplay}
+      />
     </>
   );
 }
