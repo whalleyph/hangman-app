@@ -1,5 +1,9 @@
 import React from "react";
 import { alphabet, hangmanPics, words } from "./data";
+import {
+  generateInitialAnswerDisplay,
+  arraysHaveTheSameContents,
+} from "./utils";
 
 function Game() {
   const randomNumber = Math.floor(Math.random() * words.length);
@@ -9,10 +13,6 @@ function Game() {
   );
   const [clickedButtons, setClickedButtons] = React.useState({});
   const [missCounter, setMissCounter] = React.useState(0);
-
-  function generateInitialAnswerDisplay(word) {
-    return word.split("").map((_ch) => "_");
-  }
 
   function handleClickOnLetters(guessedLetter) {
     const newGuessProgress = [...guessProgress];
@@ -41,13 +41,6 @@ function Game() {
     if (missCounter === 6) {
       return <p>You lose, the word was {targetWord}</p>;
     }
-  }
-
-  function arraysHaveTheSameContents(arr1, arr2) {
-    if (arr1.length !== arr2.length) {
-      return false;
-    }
-    return arr1.every((element, index) => element === arr2[index]);
   }
 
   function CreateAlphabetButtons() {
